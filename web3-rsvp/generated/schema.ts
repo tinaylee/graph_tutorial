@@ -260,6 +260,15 @@ export class Account extends Entity {
     this.set("totalRSVPs", Value.fromBigInt(value));
   }
 
+  get totalAttendedEvents(): BigInt {
+    let value = this.get("totalAttendedEvents");
+    return value!.toBigInt();
+  }
+
+  set totalAttendedEvents(value: BigInt) {
+    this.set("totalAttendedEvents", Value.fromBigInt(value));
+  }
+
   get rsvps(): Array<string> | null {
     let value = this.get("rsvps");
     if (!value || value.kind == ValueKind.NULL) {
