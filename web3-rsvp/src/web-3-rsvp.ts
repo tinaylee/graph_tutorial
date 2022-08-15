@@ -6,7 +6,7 @@ import {
 	NewRSVP
 } from "../generated/Web3RSVP/Web3RSVP"
 import { Account, RSVP, Confirmation, Event } from "../generated/schema"
-import {integer } from "@protofire/subgraph-toolkit";
+import { integer } from "@protofire/subgraph-toolkit";
 
 /*The 4 entities above: Account, RSVP, Confirmation, and Event were defined in the schema file (database structure). 
 An entity is like an object with a key/value pair.  Value can be queried by key
@@ -81,11 +81,12 @@ function getOrCreateAccount(address: Address) : Account {
 }
 
 export function handleNewRSVP(event: NewRSVP): void {
-	let newRSVP = RSVP.load(event.transaction.from.toHex());
+	let id = event.params.eventID.toHex() + event.params.attendeeAddress.toHex();
+	let newRSVP = RSVP.load(id);
 	let account = getOrCreateAccount(event.params.attendeeAddress);
 	let thisEvent = Event.load(event.params.eventID.toHex());
 	if (newRSVP == null && thisEvent != null) {
-		newRSVP = new RSVP(event.transaction.from.toHex());
+		newRSVP = new RSVP(id);
 		newRSVP.attendee = account.id;
 		newRSVP.event = thisEvent.id;
 		newRSVP.save();
