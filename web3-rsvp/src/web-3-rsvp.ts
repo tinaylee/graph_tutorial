@@ -90,6 +90,8 @@ export function handleNewRSVP(event: NewRSVP): void {
 		newRSVP.attendee = account.id;
 		newRSVP.event = thisEvent.id;
 		newRSVP.save();
+		thisEvent.totalRSVPs = integer.increment(thisEvent.totalRSVPs);
+    	thisEvent.save();
 		account.totalRSVPs = integer.increment(account.totalRSVPs);
 		account.save();
 	}
